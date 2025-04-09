@@ -1,25 +1,41 @@
 import subprocess
+import shutil
+
+installForApt="sudo apt-get install "
+installForPacman="sudo pacman -S "
+installForDnf="sudo dnf install "
+installForYum="sudo yum install "
+installForApk="sudo apk add "
+
 
 def install_packages():
     packages = [
-        "build-essential",  # gcc, g++, make, etc.
-        "gdb",              # debugger
-        "lua5.4",
-        "liblua5.4-dev",  # Lua development files
-        "python3-dev",  # Python development files
-        "python3-pip",  # Python package manager
+        "gcc",
+        "g++",
+        "gdb",             # debugger
+        "lua",
+        "python3",  # Python development files
+        "python-pip",  # Python package manager
     ]
     
-    print("Updating package list...")
-    subprocess.run(["sudo", "apt", "update"], check=True)
-
-    print("Installing C/C++ development packages...")
-    subprocess.run(["sudo", "apt", "install", "-y"] + packages, check=True)
-
-    print("✅ Installation complete!")
+   
+    if shutil.which("apt"):
+        subprocess.run(installForApt.split(" ")+packages)
+    elif shutil.which("dnf"):
+        subprocess.run(installForDnf.split(" ")+packages)
+    elif shutil.which("yum"):
+        subprocess.run(installForYum.split(" ")+packages)
+    elif shutil.which("pacman"):
+        subprocess.run(installForPacman.split(" ")+packages)
+    elif shutil.which("apk"):
+        subprocess.run(installForApk.split(" ")+packages)
+    else:
+        printf("[ Error ] : Package manager not found")
+        
 
 if __name__ == "__main__":
-    try:
-        install_packages()
-    except subprocess.CalledProcessError as e:
-        print(f"❌ Command failed: {e}")
+    install_packages()
+
+
+    
+
