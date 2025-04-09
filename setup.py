@@ -6,6 +6,8 @@ def install_packages():
         "gdb",              # debugger
         "lua5.4",
         "liblua5.4-dev",  # Lua development files
+        "python3-dev",  # Python development files
+        "python3-pip",  # Python package manager
     ]
     
     print("Updating package list...")
