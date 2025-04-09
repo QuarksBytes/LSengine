@@ -8,7 +8,7 @@ LuaCallback_function(myFunction){
 
 int main(){
   Lua lua;
-  lua.open("Test/test.lua");
+  lua.open("Test/Lua/test.lua");
   // lua.run();
 
   if(lua.loadFunction("greet")){
@@ -23,7 +23,7 @@ int main(){
     lua.call();
   }
   
-  lua.open("Test/test.lua");
+  lua.open("Test/Lua/test.lua");
   lua.registerFunction("cpp_callback",myFunction);
 
   if(lua.loadFunction("myFunc")){

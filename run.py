@@ -8,6 +8,15 @@ if(len(sys.argv)<2):
 
 name=str(sys.argv[1])
 
+if(not os.path.isdir('Output/')):
+    os.mkdir('Output')
+
+if(not os.path.isdir('Output/Debug')):
+    os.mkdir('Output/Debug')
+
+if(not os.path.isdir('Output/Release')):
+    os.mkdir('Output/Release')
+
 outFolder="Output/"
 arguments=""
 
