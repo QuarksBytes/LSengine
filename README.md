@@ -6,7 +6,7 @@ Demo For Running Test Files
 ---------------------------
 
 for debug tests:-
-./run.sh Test/(testFileName) -debug
+python3 run.py Test/(testFileName) -debug
 
 if it gives error 
 try doing
