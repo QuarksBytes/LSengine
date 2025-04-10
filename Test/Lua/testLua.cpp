@@ -30,4 +30,33 @@ int main(){
     lua<<"Hello from C++ to Lua to C++!";
     lua.call();
   }
-}
+
+  lua.load("print('Hello from C++ to Lua!')");
+
+  lua.load(R"(
+    function test1()
+      print("Hello test1 from Lua!")
+    end
+    )");
+
+    lua.load(R"(
+      function test1()
+        print("Hello test2 from Lua!")
+      end
+      )");
+  
+    if(lua.loadFunction("test1")){
+      lua.call();
+    }
+
+
+    if(lua.loadFunction("greet")){
+      std::cout<<"It's working\n";
+      lua<<"Shubham"<<1<<2<<3;
+      lua.call();
+    }else{
+      std::cout<<"It's not working\n";
+
+    }
+
+  }
