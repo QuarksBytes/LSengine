@@ -1,0 +1,48 @@
+{
+    "design": {
+        "name": "Sample Design",
+        "version": "1.0",
+        "description": "A sample design for demonstration purposes.",
+        "components": [
+            {
+                "identity":"Button",
+                "name": "input_1",
+                "pins":[
+                    {"name":"A" , "id":10}
+                ]              
+            },
+            {
+                "identity":"Button",
+                "name": "input_2",
+                "pins":[
+                    {"name":"A" , "id":20}           
+                ]
+                
+            },
+            {
+                "identity":"And",
+                "name": "and_gate",
+                "pins":[
+                    {"name":"A" , "id":31},
+                    {"name":"B" , "id":32},
+                    {"name":"C" , "id":33} 
+                ]
+            },
+            {
+                "identity":"Bulb",
+                "name": "indicator",
+                "pins":[
+                    {"name":"A" , "id":41}            
+                ]
+            }
+        ],
+
+
+        "connections": [
+            { "p0":10, "p1": 31 },
+            { "p0": 20, "p1": 32 },
+            { "p0": 31, "p1": 41 }
+           
+        ]
+    }
+}
