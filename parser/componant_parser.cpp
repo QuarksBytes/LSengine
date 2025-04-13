@@ -118,10 +118,6 @@ void log_componant(Module& m) {
     log_simulation("Electrical Simulation", m.electrical_simulation);
 }
 
-<<<<<<< HEAD
 }
 
 #endif
-=======
-#endif
->>>>>>> f392696c1735ca9ec21157e0e645f1b1d374e468
