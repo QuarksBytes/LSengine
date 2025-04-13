@@ -1,11 +1,14 @@
 #ifndef __COMPONENT_PARSER_CPP__
 #define __COMPONENT_PARSER_CPP__
 
-#include "../Json/json.hpp"
+#include <json.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <optional>
+
+namespace ComponantParser {
+
 
 using json = nlohmann::json;
 
@@ -113,6 +116,8 @@ void log_componant(Module& m) {
 
     log_simulation("Logic Simulation", m.logic_simulation);
     log_simulation("Electrical Simulation", m.electrical_simulation);
+}
+
 }
 
 #endif

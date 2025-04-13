@@ -1,5 +1,5 @@
 
-#include "Parser/design_parser.cpp"
+#include "design_parser.cpp"
 #include <fstream>
 #include <iostream>
 
@@ -11,11 +11,11 @@ int main(int argc, char* argv[]){
     }
 
     try {
-        json j;
+        DesignParser::json j;
         file >> j;
 
-        Design d = j.get<Design>();
-        log_design(d);
+        DesignParser::Design d = j.get<DesignParser::Design>();
+        DesignParser::log_design(d);
 
 
     } catch (const std::exception& e) {

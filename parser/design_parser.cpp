@@ -1,11 +1,13 @@
 #ifndef __DESIGN_PARSER_CPP__
 #define __DESIGN_PARSER_CPP__
 
-#include "../Json/json.hpp"
+#include <json.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <optional>
+
+namespace DesignParser {
 
 
 using json = nlohmann::json;
@@ -91,6 +93,6 @@ void log_design(const Design& d) {
         std::cout << "  • Pin " << conn.p0 << " <--> Pin " << conn.p1 << "\n";
     }
 }
-
+}
 
 #endif
