@@ -1,7 +1,7 @@
 #ifndef __COMPONENT_PARSER_CPP__
 #define __COMPONENT_PARSER_CPP__
 
-#include "../Json/json.hpp"
+#include "Json/json.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
