@@ -29,6 +29,9 @@ struct Simulation {
 // Module struct (main container)
 struct Module {
     std::string module;
+    uint32_t width;
+    uint32_t height;
+    std::string type;
     std::string description;
     std::optional<Simulation> logic_simulation;
     std::optional<Simulation> electrical_simulation;
@@ -78,7 +81,10 @@ void from_json(const json& j, Simulation& s) {
 void from_json(const json& j, Module& m) {
     j.at("module").get_to(m.module);
     j.at("description").get_to(m.description);
-
+    j.at("width").get_to(m.width);
+    j.at("height").get_to(m.height);
+    j.at("type").get_to(m.type);
+    
     if (j.contains("Logic_simulation"))
         m.logic_simulation = j.at("Logic_simulation").get<Simulation>();
 
