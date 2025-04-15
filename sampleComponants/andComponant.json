@@ -1,0 +1,19 @@
+{
+    "module": "AND-gate",
+    "description": "A simple 2-input AND gate",
+    "width": 100,
+    "height": 200,
+    "type": "GATE",
+    "Logic_simulation": {
+        "pins": {
+            "left": [
+                {"name": "A"},
+                {"name": "B"}
+            ],
+            "right": [
+                {"name": "OUT"}
+            ]
+        },
+        "logic": "function AND_gate(A, B)\n    return A and B\nend\n\nlocal A = true\nlocal B = false\nprint(\"Output: \" .. tostring(AND_gate(A, B)))"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "module": "OR-gate",
+    "description": "A simple 2-input OR gate",
+    "width": 100,
+    "height": 200,
+    "type": "GATE",
+    "Logic_simulation": {
+        "pins": {
+            "left": [
+                {"name": "A"},
+                {"name": "B"}
+            ],
+            "right": [
+                {"name": "OUT"}
+            ]
+        },
+        "logic": "function OR_gate(A, B)\n    return A or B\nend\n\nlocal A = true\nlocal B = false\nprint(\"Output: \" .. tostring(OR_gate(A, B)))"
+    }
+}

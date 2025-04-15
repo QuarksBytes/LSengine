@@ -8,36 +8,35 @@
 #include <map>
 
 class ModuleRegistry {
-    private:
-
-     std::map<std::string, int> moduleMap;
-     std::map<std::string, int> sourceMap;
-     
+    
     public:
+    
+     std::map<std::string, ComponantParser::Module> moduleMap;
+     std::map<std::string, std::string> sourceMap;
+     
+    
      ModuleRegistry(std::vector<std::string> extensionSources){
-            sources = extensionSources;
+            
             for(auto source : extensionSources){
                 try{
                  //converting to Module   
-                ComponantParser::json j;
-                source >> j;
+                ComponantParser::json j = ComponantParser::json::parse(source);
                 ComponantParser::Module m = j.get<ComponantParser::Module>();
                 //adding to global vectors
-                modulesMap[m.module] = m;
+                moduleMap[m.module] = m;
                 //adding to source map
                 sourceMap[m.module] = source;
                 }
                 catch(const std::exception& e){
                     std::cerr << "Error parsing JSON: " << e.what() << "\n";
-                    return 1;
                 }
             }
      }
 
 
-      Module& getModule(const std::string& moduleName) {
+     ComponantParser::Module& getModule(const std::string& moduleName) {
           //TODO
-          return modulesMap[moduleName];
+          return moduleMap[moduleName];
       }
 
 };

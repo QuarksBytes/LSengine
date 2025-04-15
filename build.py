@@ -2,7 +2,7 @@
 
 import os
 
-os.system("g++ main.cpp -o Output/main -IJson -ILua -IParser")
+os.system("g++ Core/module_registry_test.cpp -o Output/main -IJson -ILua -IParser -ICore")
 
 
 
