@@ -4,13 +4,13 @@
 #include"componant_parser.cpp"
 #include"design_parser.cpp"
 #include<vector>
-
+#include<map>
 
 
 class Engine{
     private:
-       std::vector<Module> modules;
-       std::vector<Module> runModulesQueue[2];
+       std::map<int ,ComponantParser:: Module> modules;
+       std::vector<ComponantParser::Module> runModulesQueue[2];
        uint32_t current=0;
 
    public:
@@ -19,7 +19,7 @@ class Engine{
        
         //adding all modules from design
         for(auto& component : design.components){
-            modules.push_back(moduleRegistry.getModule(component.identity)); 
+            modules[component.id] = moduleRegistry.getModule(component.identity);
         }
        
         //reserving space for modulesQueue
