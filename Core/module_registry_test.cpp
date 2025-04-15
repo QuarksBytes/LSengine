@@ -35,20 +35,17 @@ int main() {
           
         ModuleRegistry moduleRegistry(fileContents);
 
-        // Assuming you have a Design object to pass to the Engine constructor
-        //printing the modules in the registry
-        for(auto& module : moduleRegistry.moduleMap){
-            std::cout << "Module: " << module.first << "\n";
-            std::cout << "Description: " << module.second.description << "\n";
-            std::cout << "Width: " << module.second.width << "\n";
-            std::cout << "Height: " << module.second.height << "\n";
-            std::cout << "Type: " << module.second.type << "\n\n";
-        }
+
+        ComponantParser::Module& module = moduleRegistry.getModule("AND-gate");
+        ComponantParser::log_componant(module);
     }
     catch(const std::exception& e){
         std::cerr << "Error parsing JSON: " << e.what() << "\n";
         return 1;
     }
+
+
+
     
 
     return 0;

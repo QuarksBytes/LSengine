@@ -118,6 +118,9 @@ void log_simulation(const std::string& sim_name, const std::optional<Simulation>
 
 void log_componant(Module& m) {
     std::cout << "Module: " << m.module << "\n";
+    std::cout << "width: " << m.width << "\n";
+    std::cout << "height: " << m.height << "\n";
+    std::cout << "Type: " << m.type << "\n";
     std::cout << "Description: " << m.description << "\n";
 
     log_simulation("Logic Simulation", m.logic_simulation);
