@@ -1,7 +1,7 @@
 #ifndef __MODULE_REGISTRY_CPP__
 #define __MODULE_REGISTRY_CPP__
 
-#include "componant_parser.cpp"
+#include "Parser/componant_parser.cpp"
 #include <vector>
 #include <string>
 #include <iostream>

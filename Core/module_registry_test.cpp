@@ -3,7 +3,7 @@
 #include <string>
 #include <filesystem>
 #include <vector>
-#include <module_registry.cpp>
+#include "Core/module_registry.cpp"
 
 namespace fs = std::filesystem;
 

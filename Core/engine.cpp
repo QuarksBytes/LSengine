@@ -1,8 +1,8 @@
 #ifndef __ENGINE_CPP__
 #define __ENGINE_CPP__
 
-#include"componant_parser.cpp"
-#include"design_parser.cpp"
+#include"Parser/componant_parser.cpp"
+#include"Parser/design_parser.cpp"
 #include<vector>
 #include<map>
 
