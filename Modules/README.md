@@ -1,0 +1,1 @@
+here we need to write about Module registry working and put sample code too
