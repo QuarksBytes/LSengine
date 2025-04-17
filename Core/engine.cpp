@@ -1,56 +1,121 @@
 #ifndef __ENGINE_CPP__
 #define __ENGINE_CPP__
 
-#include"Parser/componant_parser.cpp"
-#include"Parser/design_parser.cpp"
 #include<vector>
-#include<map>
 
+#include"Parser/component_parser.cpp"
+#include"Parser/design_parser.cpp"
+#include"Lua/lua.cpp"
+
+#define FLAGS_ENGINE_STARTED 1
 
 class Engine{
-    private:
-       std::map<int ,ComponantParser:: Module> modules;
-       std::vector<ComponantParser::Module> runModulesQueue[2];
-       uint32_t current=0;
+private:
 
-   public:
+  Lua luaLogical;
+  Lua luaElectrical;
 
-    Engine(Design& design , ModuleRegistry& moduleRegistry){
-       
-        //adding all modules from design
-        for(auto& component : design.components){
-            modules[component.id] = moduleRegistry.getModule(component.identity);
-        }
-       
-        //reserving space for modulesQueue
-        runModulesQueue[0].reserve(15);
-        runModulesQueue[1].reserve(15);
+  std::vector<ComponentParser:: Module> logicalModules;
+  std::vector<uint32_t> runModulesList[2];
 
-        //prepering first run queue , only componant eith type input is to be in run queue 1
-        for(auto& module : modules){
-            if(module.type == "input"){
-                runModulesQueue[0].push_back(module);
-            }
-        }
+  uint32_t current=0;
+
+  uint32_t flags=0;
 
 
+public:
+
+
+  /*
+   *
+   *
+   * Needs Complete rewriting
+   * after thinking of design pattern
+   *
+  Engine(Design& design , ModuleRegistry& moduleRegistry){
+
+    //adding all modules from design
+    for(auto& component : design.components){
+      modules[component.id] = moduleRegistry.getModule(component.identity);
     }
 
-    void addModule(Module& m){
-       modules.push_back(m);
+    //reserving space for modulesQueue
+    runModulesList[0].reserve(15);
+    runModulesList[1].reserve(15);
+
+    //prepering first run queue , only componant eith type input is to be in run queue 1
+    for(auto& module : modules){
+      if(module.type == "input"){
+        runModulesList[0].push_back(module);
+      }
     }
 
 
-    void run(){
-        //TODO
-        //run the modules in the current queue and add the output modules to the next queue
-        //after running all modules in the current queue, swap the queues and repeat until no more modules to run
-        for(auto& module : runModulesQueue[current]){
-            //run module
-        }
-        current = (current + 1) % 2;
+  }
+
+  */
+
+
+
+/*
+ *
+ * returns id for accessing the elements in engine again ,
+ * id can never be 0,
+ * if it is 0 then an error has occured
+ *
+ */
+  uint32_t addModuleForLogical(ComponentParser::Module& m){
+    if(flags&FLAGS_ENGINE_STARTED){
+      return 0;
     }
+
+    if(!m.logic_simulation){
+      std::cerr<<"Doesn't contain logical logic\n";
+      return 0;
+    }
+
+    logicalModules.push_back(m);
+    // convert lua template into function and add it to luaLogical.load
+    //luaLogical.load(moduleLogicalFunction);
+
+    return logicalModules.size();
+  }
+
+  ComponentParser::Module* operator[](uint32_t id){
+    if(!id || id>logicalModules.size()){
+      return nullptr;
+    }
+    return &logicalModules[id-1];
+  }
+
+
+  void runLogical(){
+    //TODO
+    //run the modules in the current queue and add the output modules to the next queue
+    //after running all modules in the current queue, swap the queues and repeat until no more modules to run
+
+    std::vector<ComponentParser:: Module>& moduleList=logicalModules;
+    std::vector<uint32_t>& currentList=runModulesList[(current&1)];
+
+    ComponentParser::Module* cmodule=nullptr;
+
+    Lua& lua=luaLogical;
+
+    while(currentList.size()){ // loop as long as there is element in current list
+
+      for (const uint32_t& value: currentList){
+        cmodule=&moduleList[value];
+        lua.loadFunction(cmodule->logic_simulation->functionName);
+        //  for
+      }
+
+      current^=1;
+      currentList.resize(0);
+      currentList=runModulesList[(current&1)];
+    }
+  }
 };
 
+#undef FLAGS_ENGINE_STARTED
 
 #endif

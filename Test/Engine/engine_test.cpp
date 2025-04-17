@@ -1,16 +1,18 @@
-#include <iostream>
 #include <fstream>
-#include <string>
-#include <filesystem>
-#include <vector>
-#include "Core/module_registry.cpp"
+
+
+
+#include"Core/engine.cpp"
+#include"Modules/module_registry.cpp"
+
 
 namespace fs = std::filesystem;
 
-int main() {
+int main(){
+
     std::string directory = "sampleComponants";
     std::vector<std::string> fileContents;
-   
+
     //read file from directory
     try {
         for (const auto& entry : fs::directory_iterator(directory)) {
@@ -30,23 +32,12 @@ int main() {
         return 1;
     }
 
+    ModuleRegistry moduleRegistry(fileContents);
 
-    try{
-          
-        ModuleRegistry moduleRegistry(fileContents);
-
-
-        ComponantParser::Module& module = moduleRegistry.getModule("AND-gate");
-        ComponantParser::log_componant(module);
-    }
-    catch(const std::exception& e){
-        std::cerr << "Error parsing JSON: " << e.what() << "\n";
-        return 1;
-    }
+    auto& module=moduleRegistry.getModule("AND-gate");
+    ComponentParser::log_component(module);
 
 
 
-    
 
-    return 0;
 }
