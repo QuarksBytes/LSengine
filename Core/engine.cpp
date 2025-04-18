@@ -5,6 +5,7 @@
 
 #include"Parser/component_parser.cpp"
 #include"Parser/design_parser.cpp"
+#include"Error/ls_error.cpp"
 #include"Lua/lua.cpp"
 
 #define FLAGS_ENGINE_STARTED 1
@@ -66,11 +67,12 @@ public:
  */
   uint32_t addModuleForLogical(ComponentParser::Module& m){
     if(flags&FLAGS_ENGINE_STARTED){
+      LSError::SetError("Engine has already started, cannot add more modules");
       return 0;
     }
 
     if(!m.logic_simulation){
-      std::cerr<<"Doesn't contain logical logic\n";
+      LSError::SetError("Doesn't contain logical logic");
       return 0;
     }
 
@@ -83,6 +85,7 @@ public:
 
   ComponentParser::Module* operator[](uint32_t id){
     if(!id || id>logicalModules.size()){
+      LSError::SetError("Invalid module id");
       return nullptr;
     }
     return &logicalModules[id-1];
