@@ -16,7 +16,7 @@ private:
   Lua luaLogical;
   Lua luaElectrical;
 
-  std::vector<ComponentParser:: Module> logicalModules;
+  std::vector<ComponentParser:: Componant> logicalModules;
   std::vector<uint32_t> runModulesList[2];
 
   uint32_t current=0;
@@ -65,7 +65,7 @@ public:
  * if it is 0 then an error has occured
  *
  */
-  uint32_t addModuleForLogical(ComponentParser::Module& m){
+  uint32_t addModuleForLogical(ComponentParser::Componant& m){
     if(flags&FLAGS_ENGINE_STARTED){
       LSError::SetError("Engine has already started, cannot add more modules");
       return 0;
@@ -83,7 +83,7 @@ public:
     return logicalModules.size();
   }
 
-  ComponentParser::Module* operator[](uint32_t id){
+  ComponentParser::Componant* operator[](uint32_t id){
     if(!id || id>logicalModules.size()){
       LSError::SetError("Invalid module id");
       return nullptr;
@@ -97,10 +97,10 @@ public:
     //run the modules in the current queue and add the output modules to the next queue
     //after running all modules in the current queue, swap the queues and repeat until no more modules to run
 
-    std::vector<ComponentParser:: Module>& moduleList=logicalModules;
+    std::vector<ComponentParser::Componant>& moduleList=logicalModules;
     std::vector<uint32_t>& currentList=runModulesList[(current&1)];
 
-    ComponentParser::Module* cmodule=nullptr;
+    ComponentParser::Componant* cmodule=nullptr;
 
     Lua& lua=luaLogical;
 

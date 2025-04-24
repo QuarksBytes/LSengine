@@ -1,3 +1,8 @@
+<div align="center">
+    <img src="lsengine_icon.png" alt="LSengine Logo" style="width: 200px; height: auto; border-radius: 15px;">
+</div>
+
+
 # LSengine
 LSengine is a electronic circuit simulator engine
 

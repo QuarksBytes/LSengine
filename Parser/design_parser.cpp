@@ -7,7 +7,7 @@
 #include <optional>
 
 #include "Json/json.hpp"
-
+#include "Parser/component_parser.cpp"
 namespace DesignParser {
 
 
@@ -42,6 +42,7 @@ namespace DesignParser {
         std::string description;
         std::vector<Component> components;
         std::vector<Connection> connections;
+        std::vector<ComponentParser::Componant> dependantModules;
     };
 
 
@@ -74,6 +75,15 @@ namespace DesignParser {
         design.at("description").get_to(d.description);
         design.at("components").get_to(d.components);
         design.at("connections").get_to(d.connections);
+        
+
+         // Parse dependencies using ComponentParser::Componant
+         if (design.contains("dependencies")) {
+            design.at("dependencies").get_to(d.dependantModules);
+        } else {
+            d.dependantModules = std::vector<ComponentParser::Componant>();
+        }
+        
     }
 
 
@@ -93,6 +103,15 @@ namespace DesignParser {
         for (const auto& conn : d.connections) {
             std::cout << "  • Pin " << conn.p0 << " <--> Pin " << conn.p1 << "\n";
         }
+
+
+        std::cout << "\n🔌 Dependant Modules:\n";
+        for (const auto& m : d.dependantModules) {
+            std::cout << "  • Module: " << m.module << "\n";
+            std::cout << "    Description: " << m.description << "\n";
+        }
+        std::cout << "----------------------------------------\n";
+
     }
 }
 
