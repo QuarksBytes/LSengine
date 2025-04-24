@@ -47,6 +47,104 @@
             { "p0": 20, "p1": 32 },
             { "p0": 31, "p1": 41 }
            
+        ],
+
+
+        "dependencies": [
+            {
+                "module":"2-bit-adder",
+                "description":"A simple 2-bit adder circuit",
+                "width":200,
+                "height":400,
+                "type":"INPUT",
+                "Logic_simulation":{
+                    "pins":{
+                        "left":[
+                             {"name":"A0"},
+                             {"name":"A1"},
+                             {"name":"B0"},
+                             {"name":"B1"},
+                             {"name":"Cin"}
+                         ],
+                        "right":[
+                             {"name":"S0"},
+                             {"name":"S1"},
+                             {"name":"Cout"}
+                        ]
+                     },
+                     "logic":"#sample lua code for 2-bit adder\n name = \"Lua\"\nprint(\"Hi, \" .. name)"
+                },
+               "Electrical_simulation":{
+                      "pins":{
+                        "left":[
+                             {"name":"A0"},
+                             {"name":"A1"},
+                             {"name":"B0"},
+                             {"name":"B1"},
+                             {"name":"Cin"}
+                         ],
+                        "right":[
+                             {"name":"S0"},
+                             {"name":"S1"},
+                             {"name":"Cout"}
+                        ],
+                        "bottom":[
+                             {"name":"GND"},
+                             {"name":"VCC"}
+                         ]
+                     },
+                     "logic":"#sample lua code for 2-bit adder\n name = \"Lua\"\nprint(\"Hi, \" .. name)"
+               }
+               
+            },
+
+
+            {
+                "module":"3-bit-adder",
+                "description":"A simple 2-bit adder circuit",
+                "width":200,
+                "height":400,
+                "type":"INPUT",
+                "Logic_simulation":{
+                    "pins":{
+                        "left":[
+                             {"name":"A0"},
+                             {"name":"A1"},
+                             {"name":"B0"},
+                             {"name":"B1"},
+                             {"name":"Cin"}
+                         ],
+                        "right":[
+                             {"name":"S0"},
+                             {"name":"S1"},
+                             {"name":"Cout"}
+                        ]
+                     },
+                     "logic":"#sample lua code for 2-bit adder\n name = \"Lua\"\nprint(\"Hi, \" .. name)"
+                },
+               "Electrical_simulation":{
+                      "pins":{
+                        "left":[
+                             {"name":"A0"},
+                             {"name":"A1"},
+                             {"name":"B0"},
+                             {"name":"B1"},
+                             {"name":"Cin"}
+                         ],
+                        "right":[
+                             {"name":"S0"},
+                             {"name":"S1"},
+                             {"name":"Cout"}
+                        ],
+                        "bottom":[
+                             {"name":"GND"},
+                             {"name":"VCC"}
+                         ]
+                     },
+                     "logic":"#sample lua code for 2-bit adder\n name = \"Lua\"\nprint(\"Hi, \" .. name)"
+               }
+               
+            }
         ]
     }
 }
