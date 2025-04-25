@@ -105,7 +105,7 @@ namespace DesignParser {
         }
 
 
-        std::cout << "\n🔌 Dependant Modules:\n";
+        std::cout << "\n 📦 Dependant Modules:\n";
         for (const auto& m : d.dependantModules) {
             std::cout << "  • Module: " << m.module << "\n";
             std::cout << "    Description: " << m.description << "\n";

@@ -73,6 +73,11 @@ namespace ComponentParser {
       }
     }
 
+    if (j.contains("functionName")) {
+      s.functionName = j.at("functionName").get<std::string>();
+  }
+  
+
     // logic is required
     if (!j.contains("logic"))
       throw std::runtime_error("Missing 'logic' field in simulation");
@@ -82,7 +87,7 @@ namespace ComponentParser {
 
 
   // Module parser
-  void from_json(const json& j, Componant m) {
+  void from_json(const json& j, Componant& m) {
     j.at("module").get_to(m.module);
     j.at("description").get_to(m.description);
     j.at("width").get_to(m.width);
