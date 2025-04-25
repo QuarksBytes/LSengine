@@ -45,47 +45,21 @@ int drawLine(lua_State* L) {
 }
 
 
+int setPin(lua_State* L) {
+    const char* pinName = luaL_checkstring(L, 1);
+    bool state = lua_toboolean(L, 2);
+    std::cout << "Setting pin " << pinName << " to " << (state ? "HIGH" : "LOW") << "\n";
+    return 0;
+}
+
 void registerDrawingFunctions(lua_State* L) {
     lua_register(L, "drawCircle", drawCircle);
     lua_register(L, "drawRect", drawRect);
     lua_register(L, "drawLine", drawLine);
+    lua_register(L, "setPin", setPin);
 }
 
 
-
-int main() {
-    lua_State* L = luaL_newstate();
-    luaL_openlibs(L);
-    registerDrawingFunctions(L);
-
-    // Load the script file
-    if (luaL_dofile(L, "LuaGraphics/testGraphics.lua") != LUA_OK) {
-        std::cerr << "Failed to load Lua script: " << lua_tostring(L, -1) << std::endl;
-        return 1;
-    }
-
-   // Push function draw
-   lua_getglobal(L, "draw");
-   if (!lua_isfunction(L, -1)) {
-       std::cerr << "`draw` is not a function" << std::endl;
-       lua_close(L);
-       return 1;
-   }
-
-   // Push width and height
-   int width = 800;
-   int height = 600;
-   lua_pushnumber(L, width);
-   lua_pushnumber(L, height);
-
-   // Call draw(width, height)
-   if (lua_pcall(L, 2, 0, 0) != LUA_OK) {
-       std::cerr << "Error calling draw(): " << lua_tostring(L, -1) << std::endl;
-   }
-
-   lua_close(L);
-   return 0;
-}
 
 
 #endif
