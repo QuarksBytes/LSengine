@@ -8,7 +8,7 @@
 
 #include "Json/json.hpp"
 #include "Parser/component_parser.cpp"
-namespace DesignParser {
+namespace Parser {
 
 
     using json = nlohmann::json;
@@ -21,7 +21,7 @@ namespace DesignParser {
     };
 
     // Component in the design
-    struct Component {
+    struct ComponentRef {
         std::string identity;
         std::string name;
         int id;
@@ -40,9 +40,9 @@ namespace DesignParser {
         std::string name;
         std::string version;
         std::string description;
-        std::vector<Component> components;
+        std::vector<ComponentRef> components;
         std::vector<Connection> connections;
-        std::vector<ComponentParser::Componant> dependantModules;
+        std::vector<Parser::Componant> dependantModules;
     };
 
 
@@ -53,7 +53,7 @@ namespace DesignParser {
     }
 
     // Component parser
-    inline void from_json(const json& j, Component& c) {
+    inline void from_json(const json& j, ComponentRef& c) {
         j.at("identity").get_to(c.identity);
         j.at("name").get_to(c.name);
         j.at("id").get_to(c.id);
@@ -81,7 +81,7 @@ namespace DesignParser {
          if (design.contains("dependencies")) {
             design.at("dependencies").get_to(d.dependantModules);
         } else {
-            d.dependantModules = std::vector<ComponentParser::Componant>();
+            d.dependantModules = std::vector<Parser::Componant>();
         }
         
     }

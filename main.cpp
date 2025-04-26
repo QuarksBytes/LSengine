@@ -11,11 +11,11 @@ int main(int argc, char* argv[]){
     }
 
     try {
-        DesignParser::json j;
+        Parser::json j;
         file >> j;
 
-        DesignParser::Design d = j.get<DesignParser::Design>();
-        DesignParser::log_design(d);
+        Parser::Design d = j.get<Parser::Design>();
+        Parser::log_design(d);
 
 
     } catch (const std::exception& e) {

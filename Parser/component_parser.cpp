@@ -7,7 +7,7 @@
 #include <vector>
 #include <optional>
 
-namespace ComponentParser {
+namespace Parser {
 
 
   constexpr uint32_t power=0x1;
