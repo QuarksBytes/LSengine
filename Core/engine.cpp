@@ -2,6 +2,7 @@
 #define __ENGINE_CPP__
 
 #include<vector>
+#include<cstdint>
 
 #include"Parser/component_parser.cpp"
 #include"Parser/design_parser.cpp"
@@ -10,6 +11,12 @@
 
 #define FLAGS_ENGINE_STARTED 1
 
+#define MODULE_STATE_INCOMPLETE 1
+struct ModuleState{
+  uint32_t index;
+  uint32_t state;
+};
+
 class Engine{
 private:
 
@@ -17,12 +24,21 @@ private:
   Lua luaElectrical;
 
   std::vector<ComponentParser:: Componant> logicalModules;
-  std::vector<uint32_t> runModulesList[2];
+  std::vector<ModuleState> runModulesList[2];
 
   uint32_t current=0;
 
   uint32_t flags=0;
 
+
+  void addModuleStateToList(std::vector<ModuleState>& runModulesList,const ModuleState& state){
+    for(const ModuleState& cstate : runModulesList){
+      if(cstate.index==state.index){
+        return;
+      }
+    }
+    runModulesList.push_back(state);
+  }
 
 public:
 
@@ -98,23 +114,29 @@ public:
     //after running all modules in the current queue, swap the queues and repeat until no more modules to run
 
     std::vector<ComponentParser::Componant>& moduleList=logicalModules;
-    std::vector<uint32_t>& currentList=runModulesList[(current&1)];
+    std::vector<ModuleState>& currentList=runModulesList[(current&1)];
+    std::vector<ModuleState>& nextList=runModulesList[(current&1)^1];
 
-    ComponentParser::Componant* cmodule=nullptr;
+    ComponentParser::Component* cmodule=nullptr;
 
     Lua& lua=luaLogical;
 
     while(currentList.size()){ // loop as long as there is element in current list
 
-      for (const uint32_t& value: currentList){
-        cmodule=&moduleList[value];
+      for (const ModuleState& cstate: currentList){
+        cmodule=&moduleList[cstate.index];
+        if(cstate.state==MODULE_STATE_INCOMPLETE){
+          addModuleStateToList(nextList,cstate);
+          continue;
+        }
         lua.loadFunction(cmodule->logic_simulation->functionName);
-        //  for
+        //  here comes the isssue ,  we have to think of how the design pins will be sorted so as to access it efficiently
       }
 
       current^=1;
       currentList.resize(0);
       currentList=runModulesList[(current&1)];
+      nextList=runModulesList[(current&1)^1];
     }
   }
 };
