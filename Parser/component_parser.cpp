@@ -9,10 +9,6 @@
 
 namespace Parser {
 
-
-  constexpr uint32_t power=0x1;
-  constexpr uint32_t component=0x0;
-
   using json = nlohmann::json;
 
   struct Pin {
@@ -36,7 +32,7 @@ namespace Parser {
     std::string description;
     std::optional<Simulation> logic_simulation;
     std::optional<Simulation> electrical_simulation;
-    uint32_t type;
+    std::string type;
     uint32_t width;
     uint32_t height;
   };
@@ -93,13 +89,7 @@ namespace Parser {
     j.at("width").get_to(m.width);
     j.at("height").get_to(m.height);
     std::string type;
-    j.at("type").get_to(type); // this code for type needs to change
-
-    if(type=="INPUT"){
-      m.type=power;
-    }else{
-      m.type=component;
-    }
+    j.at("type").get_to(type); 
 
     if (j.contains("Logic_simulation"))
       m.logic_simulation = j.at("Logic_simulation").get<Simulation>();
