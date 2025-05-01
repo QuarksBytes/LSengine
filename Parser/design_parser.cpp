@@ -36,13 +36,13 @@ namespace Parser {
     };
 
     // Top-level Design
-    struct Design {
+    struct DesignParsed {
         std::string name;
         std::string version;
         std::string description;
         std::vector<ComponentRef> components;
         std::vector<Connection> connections;
-        std::vector<Parser::Componant> dependantModules;
+        std::vector<Parser::ComponantParsed> dependantModules;
     };
 
 
@@ -68,7 +68,7 @@ namespace Parser {
     }
 
     // Design parser
-    inline void from_json(const json& j, Design& d) {
+    inline void from_json(const json& j, DesignParsed& d) {
         const auto& design = j.at("design");
         design.at("name").get_to(d.name);
         design.at("version").get_to(d.version);
@@ -81,13 +81,13 @@ namespace Parser {
          if (design.contains("dependencies")) {
             design.at("dependencies").get_to(d.dependantModules);
         } else {
-            d.dependantModules = std::vector<Parser::Componant>();
+            d.dependantModules = std::vector<Parser::ComponantParsed>();
         }
         
     }
 
 
-    void log_design(const Design& d) {
+    void log_design(const DesignParsed& d) {
         std::cout << "📐 Design: " << d.name << " (v" << d.version << ")\n";
         std::cout << "📝 Description: " << d.description << "\n\n";
 

@@ -31,7 +31,7 @@ namespace Parser {
 
 
   // Module struct (main container)
-  struct Componant {
+  struct ComponantParsed {
     std::string module;
     std::string description;
     std::optional<Simulation> logic_simulation;
@@ -87,7 +87,7 @@ namespace Parser {
 
 
   // Module parser
-  void from_json(const json& j, Componant& m) {
+  void from_json(const json& j, ComponantParsed& m) {
     j.at("module").get_to(m.module);
     j.at("description").get_to(m.description);
     j.at("width").get_to(m.width);
@@ -132,7 +132,7 @@ namespace Parser {
     }
   }
 
-  void log_component(Componant& m) {
+  void log_component(ComponantParsed& m) {
     std::cout << "Module: " << m.module << "\n";
     std::cout << "width: " << m.width << "\n";
     std::cout << "height: " << m.height << "\n";

@@ -14,7 +14,7 @@ int main(int argc, char* argv[]){
         Parser::json j;
         file >> j;
 
-        Parser::Design d = j.get<Parser::Design>();
+        Parser::DesignParsed d = j.get<Parser::DesignParsed>();
         Parser::log_design(d);
 
 
