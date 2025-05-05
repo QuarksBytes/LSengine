@@ -18,3 +18,10 @@ try doing
  chmod +777 run.sh
 and try again
 
+
+---------------------------
+How Engine works
+---------------------------
+<div align="center">
+    <img src="algo.png" alt="LSengine Logo" style=" border-radius: 15px;">
+</div>
