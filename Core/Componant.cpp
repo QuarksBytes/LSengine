@@ -58,11 +58,11 @@ class Componant
     uint16_t height;
     ComponantType type;
     
-    Simulator& logicSimulator;
-    Simulator& electricalSimulator;
+    Simulator logicSimulator;
+    Simulator electricalSimulator;
 
-    Componant(Parser::ComponantParsed& parsedComponant): logicSimulator(*new Simulator(parsedComponant.logic_simulation.value())),
-                                                         electricalSimulator(*new Simulator(parsedComponant.electrical_simulation.value()))
+    Componant(Parser::ComponantParsed& parsedComponant): logicSimulator(Simulator(parsedComponant.logic_simulation.value())),
+                                                         electricalSimulator(Simulator(parsedComponant.electrical_simulation.value()))
     {
         moduleName = parsedComponant.module;
         moduleDescription = parsedComponant.description;

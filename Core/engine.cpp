@@ -4,17 +4,22 @@
 #include<vector>
 #include<cstdint>
 
-#include"Parser/component_parser.cpp"
+#include"Componant.cpp"
 #include"Parser/design_parser.cpp"
 #include"Error/ls_error.cpp"
 #include"Lua/lua.cpp"
 
 #define FLAGS_ENGINE_STARTED 1
 
-#define MODULE_STATE_INCOMPLETE 1
+enum ModulaInputState{
+  MODULE_STATE_INCOMPLETE,
+  MODULE_STATE_COMPLETE,
+  MODULE_STATE_ERROR
+};
+
 struct ModuleState{
-  uint32_t index;
-  uint32_t state;
+  Componant* componant;
+  ModulaInputState state;
 };
 
 class Engine{
@@ -23,22 +28,15 @@ private:
   Lua luaLogical;
   Lua luaElectrical;
 
-  std::vector<ComponentParser:: Componant> logicalModules;
-  std::vector<ModuleState> runModulesList[2];
+  std::vector<Componant> componants;
+
+  //buffer list to  run
+  std::list<ModuleState> runModulesList[2];
 
   uint32_t current=0;
 
   uint32_t flags=0;
 
-
-  void addModuleStateToList(std::vector<ModuleState>& runModulesList,const ModuleState& state){
-    for(const ModuleState& cstate : runModulesList){
-      if(cstate.index==state.index){
-        return;
-      }
-    }
-    runModulesList.push_back(state);
-  }
 
 public:
 
@@ -81,30 +79,43 @@ public:
  * if it is 0 then an error has occured
  *
  */
-  uint32_t addModuleForLogical(ComponentParser::Componant& m){
+  uint32_t addModuleForLogical(Componant& m){
     if(flags&FLAGS_ENGINE_STARTED){
       LSError::SetError("Engine has already started, cannot add more modules");
       return 0;
     }
 
-    if(!m.logic_simulation){
+    if(m.logicSimulator.pins.size()==0){
       LSError::SetError("Doesn't contain logical logic");
       return 0;
     }
 
-    logicalModules.push_back(m);
+    componants.push_back(m);
     // convert lua template into function and add it to luaLogical.load
     //luaLogical.load(moduleLogicalFunction);
 
-    return logicalModules.size();
+    return componants.size();
   }
 
-  ComponentParser::Componant* operator[](uint32_t id){
-    if(!id || id>logicalModules.size()){
+  Componant* operator[](uint32_t id){
+    if(!id || id>componants.size()){
       LSError::SetError("Invalid module id");
       return nullptr;
     }
-    return &logicalModules[id-1];
+    return &componants[id-1];
+  }
+
+
+
+  std::list<Componant&> runModule(Componant* module){
+    
+
+    std::list<Componant&> outputModules;
+    
+    //TODO
+
+    return outputModules;
+
   }
 
 
@@ -113,32 +124,50 @@ public:
     //run the modules in the current queue and add the output modules to the next queue
     //after running all modules in the current queue, swap the queues and repeat until no more modules to run
 
-    std::vector<ComponentParser::Componant>& moduleList=logicalModules;
-    std::vector<ModuleState>& currentList=runModulesList[(current&1)];
-    std::vector<ModuleState>& nextList=runModulesList[(current&1)^1];
+    int currentRunningListIndex=0;
 
-    ComponentParser::Component* cmodule=nullptr;
-
-    Lua& lua=luaLogical;
-
-    while(currentList.size()){ // loop as long as there is element in current list
-
-      for (const ModuleState& cstate: currentList){
-        cmodule=&moduleList[cstate.index];
-        if(cstate.state==MODULE_STATE_INCOMPLETE){
-          addModuleStateToList(nextList,cstate);
-          continue;
-        }
-        lua.loadFunction(cmodule->logic_simulation->functionName);
-        //  here comes the isssue ,  we have to think of how the design pins will be sorted so as to access it efficiently
+    //fill the first run queue with the input modules
+    for(auto& module : componants){
+      if(module.type == INPUT){
+        ModuleState state;
+        state.componant = &module; // Assign the address of the module
+        state.state = MODULE_STATE_INCOMPLETE;
+        runModulesList[currentRunningListIndex].push_back(state);
       }
-
-      current^=1;
-      currentList.resize(0);
-      currentList=runModulesList[(current&1)];
-      nextList=runModulesList[(current&1)^1];
     }
+
+    while(runModulesList[currentRunningListIndex].size() >0){ // loop as long as there is element in current list
+
+         for(auto& moduleState : runModulesList[currentRunningListIndex]){
+          //run compoannt if it has all input group is completed
+            if(moduleState.state == MODULE_STATE_COMPLETE){
+              // run the module at current running list
+              auto forwardedComponants = runModule(moduleState.componant);
+             //moving new componants to the next running list
+              runModulesList[currentRunningListIndex^1].insert(
+              runModulesList[currentRunningListIndex^1].end(),
+              forwardedComponants.begin(),
+              forwardedComponants.end()
+          );
+        }
+
+      }// end of running list modules
+      
+      currentRunningListIndex^=1; // swap the running list index
+      runModulesList[currentRunningListIndex].clear(); // clear the current running list
+
+     }
+
+
+
+
   }
+
+
+
+
+
+
 };
 
 #undef FLAGS_ENGINE_STARTED
