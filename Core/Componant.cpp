@@ -64,7 +64,7 @@ class Componant
     Componant(Parser::ComponantParsed& parsedComponant): logicSimulator(Simulator(parsedComponant.logic_simulation.value())),
                                                          electricalSimulator(Simulator(parsedComponant.electrical_simulation.value()))
     {
-        moduleName = parsedComponant.module;
+        moduleName = parsedComponant.name;
         moduleDescription = parsedComponant.description;
         width = parsedComponant.width;
         height = parsedComponant.height;

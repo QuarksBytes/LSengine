@@ -1,5 +1,5 @@
 {
-    "module":"2-bit-adder",
+    "name":"2-bit-adder",
     "description":"A simple 2-bit adder circuit",
     "width":200,
     "height":400,

@@ -107,7 +107,7 @@ namespace Parser {
 
         std::cout << "\n 📦 Dependant Modules:\n";
         for (const auto& m : d.dependantModules) {
-            std::cout << "  • Module: " << m.module << "\n";
+            std::cout << "  • Module: " << m.name << "\n";
             std::cout << "    Description: " << m.description << "\n";
         }
         std::cout << "----------------------------------------\n";
