@@ -1,14 +1,21 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+
+pub use  syngine_parser;
+
+
+fn openDesign(path:&str){
+    let mut file = std::fs::File::open(path)
+        .expect("Unable to open file");
+    
+   let componant =  syngine_parser::componant_parser::read_componant_from_file(file_path);
+    // 8240231673
+
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
+   
     #[test]
     fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+        
     }
 }

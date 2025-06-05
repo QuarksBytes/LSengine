@@ -1,7 +1,7 @@
-use serde::{Serialize, Deserialize};
 
-mod componant_parser;
-mod design_parser;
+
+pub mod componant_parser;
+pub mod design_parser;
 
 #[cfg(test)]
 mod tests {
