@@ -1,6 +1,8 @@
 
 pub use  syngine_parser;
 
+mod logical_engine;
+mod Design;
 
 fn open_design(path:&str){
     let  _file = std::fs::File::open(path)
